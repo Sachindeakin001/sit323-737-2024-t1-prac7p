@@ -1,9 +1,31 @@
-# sit323-737-2024-t1-prac7p
-This project implements a cloud-native Node.js microservice for SIT737 Task 9.1P, integrating MongoDB on a Kubernetes cluster using Docker containers. The backend code (index.js) is built with Express and Mongoose, providing RESTful CRUD endpoints (/task) to create, read, and delete task records stored in MongoDB. Environment variables such as the MongoDB URI are securely passed using Kubernetes Secrets, while the database persists data using a PersistentVolume and PVC. The application is containerized via a Dockerfile and deployed alongside MongoDB using Kubernetes Deployment and Service YAMLs. The full workflow—image build and push, secret creation, volume configuration, and resource deployment—has been tested successfully. This project satisfies all the task requirements including secure access, persistent storage, functional CRUD operations, and monitoring recommendations, and is fully documented and ready for submission.
+# SIT737 Task 9.1P – MongoDB Integration in Kubernetes
 
+## 📌 Project Overview
+This task demonstrates a cloud-native deployment of a Node.js application integrated with MongoDB, deployed using Docker and Kubernetes. It includes persistent storage, secure credential management, and basic CRUD functionality via RESTful endpoints.
 
+## 🧱 Tech Stack
+- Node.js + Express
+- MongoDB + Mongoose
+- Docker
+- Kubernetes (kubectl)
+- Secrets, PVCs, and Services
 
+## 🚀 Setup Steps
 
+### 1. Build & Push Docker Image
 
+docker build -t sachinynr001/737_week9.1 .
+docker push sachinynr001/737_week9.1
 
+2. Create
+   kubectl create secret generic mongo-secret \
+  --from-literal=mongo-user=admin \
+  --from-literal=mongo-password=admin123
 
+3. Apply Kubernetics file
+    kubectl apply -f mongo-pv.yaml
+kubectl apply -f mongo-deployment.yaml
+kubectl apply -f app-deployment.yaml
+
+5. Access app
+   kubectl get svc node-service
